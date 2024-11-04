@@ -1,81 +1,72 @@
+from flask import Flask, render_template, request, redirect, url_for, send_file
 import pandas as pd
+import os
 
-# Prompt user for input csv file names
-register_file_name = input("Enter the filename for register file (e.g., vend-register-closures-24847.csv): ").strip()
-chase_file_name = input("Enter the filename for chase file (e.g., Chase2761_Activity_20240219.csv): ").strip()
+app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = 'uploads'
+app.config['PROCESSED_FOLDER'] = 'processed'
 
-# Read register file and format 'Opened' column
-registerFile = pd.read_csv(register_file_name, header=0, usecols=["Opened", "Cash Posted"])
-registerFile['Opened'] = pd.to_datetime(registerFile['Opened'], utc=True)
-registerFile['Date'] = registerFile['Opened'].dt.strftime('%m/%d/%Y')
+# check if directories exist
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+os.makedirs(app.config['PROCESSED_FOLDER'], exist_ok=True)
 
-# Save formatted register file
-registerFile.to_csv('formatted_vend_register_closures.csv', index=False)
+@app.route('/')
+def index():
+    return render_template('index.html')
 
-# Read chase file and rename 'Posting Date' column to 'Date'
-chaseFile = pd.read_csv(chase_file_name, header=0, usecols=["Posting Date", "Amount"])
-chaseFile.rename(columns={"Posting Date": "Date"}, inplace=True)
+@app.route('/upload', methods=['POST'])
+def upload_files():
+    register_file = request.files.get('register_file')
+    chase_file = request.files.get('chase_file')
 
-# Save chase file with renamed column
-chaseFile.to_csv("Combined_Amounts.csv", index=False)
+    if not register_file or not chase_file:
+        return "Please upload both files", 400
 
-# Convert 'Date' columns to datetime objects in order to compare
-registerFile['Date'] = pd.to_datetime(registerFile['Date'], format='%m/%d/%Y')
-chaseFile['Date'] = pd.to_datetime(chaseFile['Date'], format='%m/%d/%Y')
+    register_path = os.path.join(app.config['UPLOAD_FOLDER'], register_file.filename)
+    chase_path = os.path.join(app.config['UPLOAD_FOLDER'], chase_file.filename)
 
-# Find matches where 'Cash Posted' equals 'Amount' and date in chaseFile is equal to or greater than date in registerFile
-matches = pd.merge(registerFile, chaseFile, left_on='Cash Posted', right_on='Amount', how='inner')
-matches = matches[matches['Date_y'] >= matches['Date_x']]
-matches.to_csv('amount_matches.csv', index=False)
-matches[['Date_x', 'Cash Posted', 'Date_y', 'Amount']].to_csv('amount_matches.csv', index=False)
-print("Matches saved to amount_matches.csv.")
+    # Save files
+    register_file.save(register_path)
+    chase_file.save(chase_path)
 
-# Find discrepancies
-merged_df = pd.merge(registerFile, chaseFile, left_on='Cash Posted', right_on='Amount', how='left', indicator=True)
-not_matched_df = merged_df[merged_df['_merge'] == 'left_only']
-not_matched_df = not_matched_df[['Date_x', 'Cash Posted']]
-not_matched_df.to_csv('discrepancies.csv', index=False)
+    # Read register file
+    register_df = pd.read_csv(register_path, usecols=["Opened", "Cash Posted"])
 
-print("Amount discrepancies saved to discrepancies.csv.")
+    # Convert 'Opened' to datetime, handling non-date entries
+    register_df['Opened'] = pd.to_datetime(register_df['Opened'], errors='coerce', utc=True)
+    register_df.dropna(subset=['Opened'], inplace=True)  # Remove rows with invalid dates
+    register_df['Date'] = register_df['Opened'].dt.strftime('%m/%d/%Y')
+    formatted_register_path = os.path.join(app.config['PROCESSED_FOLDER'], 'formatted_vend_register_closures.csv')
+    register_df.to_csv(formatted_register_path, index=False)
 
+    # Read and process chase file
+    chase_df = pd.read_csv(chase_path, usecols=["Posting Date", "Amount"])
+    chase_df.rename(columns={"Posting Date": "Date"}, inplace=True)
 
-"""
-import pandas
+    # Convert 'Date' to datetime, handling non-date entries
+    chase_df['Date'] = pd.to_datetime(chase_df['Date'], errors='coerce', format='%m/%d/%Y')
+    chase_df.dropna(subset=['Date'], inplace=True)  # Remove rows with invalid dates
+    combined_amounts_path = os.path.join(app.config['PROCESSED_FOLDER'], "Combined_Amounts.csv")
+    chase_df.to_csv(combined_amounts_path, index=False)
 
-registerFile = pandas.read_csv('vend-register-closures-24847.csv', header=0, usecols=["Opened", "Cash Posted"])
-registerFile['Opened'] = pandas.to_datetime(registerFile['Opened'], utc=True)
-registerFile['Opened'] = registerFile['Opened'].dt.strftime('%m/%d/%Y')
+    # Find matches
+    matches = pd.merge(register_df, chase_df, left_on='Cash Posted', right_on='Amount', how='inner')
+    matches = matches[matches['Date_y'] >= matches['Date_x']]
+    matches_path = os.path.join(app.config['PROCESSED_FOLDER'], 'amount_matches.csv')
+    matches[['Date_x', 'Cash Posted', 'Date_y', 'Amount']].to_csv(matches_path, index=False)
 
-registerFile.to_csv('formatted_vend_register_closures.csv', index=False)
+    # Find discrepancies
+    merged_df = pd.merge(register_df, chase_df, left_on='Cash Posted', right_on='Amount', how='left', indicator=True)
+    not_matched_df = merged_df[merged_df['_merge'] == 'left_only'][['Date_x', 'Cash Posted']]
+    discrepancies_path = os.path.join(app.config['PROCESSED_FOLDER'], 'discrepancies.csv')
+    not_matched_df.to_csv(discrepancies_path, index=False)
 
-chaseFile = pandas.read_csv("Chase2761_Activity_20240219.csv", header=0, usecols=["Posting Date", "Amount"])
+    return redirect(url_for('index', files_processed=True))
 
+@app.route('/download/<filename>')
+def download_file(filename):
+    path = os.path.join(app.config['PROCESSED_FOLDER'], filename)
+    return send_file(path, as_attachment=True)
 
-chaseFile.to_csv("Combined_Amounts.csv", index=False)
-
-chaseFile.rename(columns={"Posting Date": "Date"}, inplace=True)
-registerFile.rename(columns={"Opened": "Date"}, inplace=True)
-
-chaseFile['Date'] = pandas.to_datetime(chaseFile['Date'], utc=True)
-chaseFile['Date'] = chaseFile['Date'].dt.strftime('%m/%d/%Y')
-
-registerFile.to_csv('formatted_vend_register_closures.csv', index=False)
-chaseFile.to_csv("Combined_Amounts.csv", index=False)
-
-
-registerFile['Date'] = pandas.to_datetime(registerFile['Date'], format='%m/%d/%Y')
-chaseFile['Date'] = pandas.to_datetime(chaseFile['Date'], format='%m/%d/%Y')
-
-matches = pandas.merge(registerFile, chaseFile, left_on='Cash Posted', right_on='Amount', how='inner')
-matches = matches[matches['Date_y'] >= matches['Date_x']]
-matches.to_csv('amount_matches.csv', index=False)
-
-
-merged_df = pandas.merge(registerFile, chaseFile, left_on='Cash Posted', right_on='Amount', how='left', indicator=True)
-not_matched_df = merged_df[merged_df['_merge'] == 'left_only']
-
-
-not_matched_df = not_matched_df[['Date_x', 'Cash Posted']]
-
-not_matched_df.to_csv('discrepancies.csv', index=False)
-"""
+if __name__ == '__main__':
+    app.run(debug=True)
