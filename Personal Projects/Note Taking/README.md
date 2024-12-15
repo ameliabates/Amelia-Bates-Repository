@@ -1,11 +1,15 @@
-Synapse
-
-# README: Synapse: SQ3R Reading Tool
+# Synapse: SQ3R Reading Tool
 
 ## Project Overview
 The Synapse is a web-based application designed to facilitate active reading and comprehension. The application allows users to upload PDF files, interact with their content using the SQ3R methodology (Survey, Question, Read, Reflect, and Review), and create flashcards for effective study and revision.
 
----
+### SQ3R is a structured reading technique that involves these five steps:
+- **Survey:** Skim the material to get an overview.
+- **Question:** Formulate questions based on the headings and sections.
+- **Read:** Actively read to find answers to your questions.
+- **Recite:** Recall the answers and summarize the material in your own words.
+- **Review:** Go over the material to solidify understanding.
+
 
 ## Features
 
@@ -66,6 +70,10 @@ The Synapse is a web-based application designed to facilitate active reading and
 1. Click the "Generate Flashcards" button in the **Checklist** section.
 2. Navigate through flashcards on the `flashcard.html` page.
 3. Exit the flashcard page using the "X" button to return to the main page.
+
+### Download and Clear data
+1. Click the "Download Data" button to download a txt file containing all user-input information
+2. Click the "Clear All Data" button to clear all user-inputted data
 
 ---
 
