@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQ3R Reading Tool</title>
+    <style>
+        body {
+            font-family: Times New Roman, Times, serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        p {
+            margin-left: 40px;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        main {
+            display: flex;
+            flex: 1;
+        }
+
+        .panel {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+        }
+
+        .left {
+            background-color: #f9f9f9;
+        }
+
+        .right {
+            background-color: #fff;
+        }
+
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin-top: 10px;
+        }
+
+        .tools {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        button {
+            padding: 5px 10px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .flashcards {
+            margin-top: 20px;
+        }
+
+        .flashcard {
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+        }
+
+        .tab {
+            display: flex;
+            gap: 10px;
+        }
+
+        .tabcontent {
+            display: none;
+        }
+
+        .tabcontent.active {
+            display: block;
+        }
+         iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+        }
+        .upload-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body onload="document.querySelector('.tablinks').click();">
+    <header>
+        <h1>SQ3R Reading Tool</h1>
+    </header>
+    <main>
+        <div class="panel left">
+            <h2>Reading Material</h2>
+            <h3>Upload PDF File</h3>
+            <iframe id="pdfDisplay" src="" style="display: none;"></iframe>
+        <p id="noPdfMessage">No PDF uploaded yet.</p>
+            <form class="upload-form" action="upload.php" method="post" enctype="multipart/form-data">
+            <input type="file" name="pdfFile" accept="application/pdf" required>
+            <button type="submit">Upload</button>
+        </form>
+        </div>
+
+        <div class="panel right">
+            <h2>SQ3R Tasks</h2>
+            <div class="tab">
+                <button class="tablinks" onclick="openTab(event, 'Checklist')">Checklist</button>
+                <button class="tablinks" onclick="openTab(event, 'Q&A')">Q&A</button>
+                <button class="tablinks" onclick="openTab(event, 'Notes')">Notes</button>
+            </div>
+
+            <div id="Checklist" class="tabcontent">
+                <h3><input type="checkbox" id="checkbox1" value="Survey">
+                    <label for="checkbox1">Survey</label></h3>
+                <p>- Highlight headings, subheadings, and bold/italicized print</p>
+                <p>- Read the final summary paragraph</p>
+
+                <h3><input type="checkbox" id="checkbox2" value="Question">
+                    <label for="checkbox2">Questions</label></h3>
+                <p>- Use the Q&A tab to create your own questions</p>
+
+                <h3><input type="checkbox" id="checkbox3" value="Read">
+                    <label for="checkbox3">Read</label></h3>
+                <p>- Underline main ideas</p>
+                <p>- Write your notes and summarize what you have read</p>
+                <p>- Answer the questions you have created</p>
+
+                <h3><input type="checkbox" id="checkbox4" value="Reflect">
+                    <label for="checkbox4">Reflect</label></h3>
+                <p>- Answer your questions aloud in your own words</p>
+
+                <h3><input type="checkbox" id="checkbox5" value="Review">
+                    <label for="checkbox5">Review</label></h3>
+                <p>- Review using flashcards <button id="myButton">Generate Flashcards</button></p>
+            </div>
+
+            <div id="Q&A" class="tabcontent">
+                <textarea id="questionInput" placeholder="Enter your question"></textarea>
+    <textarea id="answerInput" placeholder="Enter your answer"></textarea>
+    <button onclick="addQuestion()">Save Question</button>
+            </div>
+
+            <div id="Notes" class="tabcontent">
+                <textarea placeholder="Type your notes here..."></textarea>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.getElementById("myButton").addEventListener("click", function() {
+            window.location.href = "flashcard.html";
+        });
+
+
+    // Fetch stored questions and answers from localStorage or initialize as empty
+    let questionsArray = JSON.parse(localStorage.getItem('questions')) || [];
+    let answersObject = JSON.parse(localStorage.getItem('answers')) || {};
+
+    function addQuestion() {
+        const questionInput = document.getElementById('questionInput');
+        const answerInput = document.getElementById('answerInput');
+
+        if (questionInput.value.trim() !== '' && answerInput.value.trim() !== '') {
+            // Add the question to the array
+            const question = questionInput.value.trim();
+            questionsArray.push(question);
+
+            // Save the answer for the question in the answers object
+            answersObject[question] = answerInput.value.trim();
+
+            // Save updated questions and answers to localStorage
+            localStorage.setItem('questions', JSON.stringify(questionsArray));
+            localStorage.setItem('answers', JSON.stringify(answersObject));
+
+            // Clear input fields
+            questionInput.value = '';
+            answerInput.value = '';
+
+            alert('Question and answer saved!');
+        } else {
+            alert('Please enter both a question and an answer.');
+        }
+    }
+
+
+        function openTab(evt, tabName) {
+            const tabcontent = document.getElementsByClassName("tabcontent");
+            const tablinks = document.getElementsByClassName("tablinks");
+
+            for (let i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.remove("active");
+            }
+
+            for (let i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+        const urlParams = new URLSearchParams(window.location.search);
+    const uploadedFile = urlParams.get('file');
+    const pdfDisplay = document.getElementById('pdfDisplay');
+    const noPdfMessage = document.getElementById('noPdfMessage');
+
+    if (uploadedFile) {
+        localStorage.setItem('lastPdf', uploadedFile); // Save the last uploaded file in localStorage
+        pdfDisplay.src = uploadedFile;
+        pdfDisplay.style.display = "block";
+        noPdfMessage.style.display = "none";
+    } else {
+        const lastPdf = localStorage.getItem('lastPdf');
+        if (lastPdf) {
+            pdfDisplay.src = lastPdf;
+            pdfDisplay.style.display = "block";
+            noPdfMessage.style.display = "none";
+        }
+    }
+    </script>
+</body>
+</html>
