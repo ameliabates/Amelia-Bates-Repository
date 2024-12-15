@@ -1,10 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flashcard Study</title>
     <style>
+        :root {
+            --timberwolf: #dad7cdff;
+            --sage: #a3b18aff;
+            --fern-green: #588157ff;
+            --hunter-green: #3a5a40ff;
+            --brunswick-green: #344e41ff;
+        }
         body {
             font-family: Times New Roman, Times, serif;
             margin: 0;
@@ -14,7 +25,8 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
-            background-color: #f4f4f9;
+            background-color: var(--timberwolf);
+            color: var(--hunter-green);
         }
 
 
@@ -55,11 +67,11 @@
         }
 
         .flashcard .front {
-            background-color: #ffffff;
+            background-color: white;
         }
 
         .flashcard .back {
-            background-color: #e0f7fa;
+            background-color: var(--sage);
             transform: rotateY(180deg);
         }
 
@@ -72,14 +84,14 @@
         .controls button {
             padding: 10px 20px;
             border: none;
-            background-color: #4CAF50;
-            color: white;
+            background-color: var(--fern-green);
+            color: var(--timberwolf);
             cursor: pointer;
             border-radius: 5px;
         }
 
         .controls button:hover {
-            background-color: #45a049;
+            background-color: var(--brunswick-green);
         }
 
         .controls button:disabled {
@@ -89,80 +101,33 @@
 
         .button {
             margin-right: 80%;
-            color: green;
+            color: var(--fern-green);
             font-weight: bold;
             cursor: pointer;
             font-size: 25px;
         }
+        .button:hover {
+            color: var(--brunswick-green);
+        }
+
     </style>
 </head>
 <body>
 
         <div class="button">X</div>
-
     <div class="flashcard-container">
         <div class="flashcard" id="flashcard">
+            <div class="counter" id="counter">1 / 1</div>
             <div class="front" id="question">Question will appear here</div>
             <div class="back" id="answer">Answer will appear here</div>
         </div>
     </div>
     <br><br>
     <div class="controls">
-        <button id="prev" disabled>Previous</button>
+        <button id="prev" disabled>Prev</button>
         <button id="next">Next</button>
     </div>
 
-    <script>
-        const flashcard = document.getElementById('flashcard');
-        const questionDiv = document.getElementById('question');
-        const answerDiv = document.getElementById('answer');
-        const prevButton = document.getElementById('prev');
-        const nextButton = document.getElementById('next');
-
-        let questions = JSON.parse(localStorage.getItem('questions')) || [];
-        let answers = JSON.parse(localStorage.getItem('answers')) || {};
-        let currentIndex = 0;
-
-        function updateFlashcard() {
-            flashcard.classList.remove('flipped');
-            if (questions.length > 0) {
-                questionDiv.textContent = `Q: ${questions[currentIndex]}`;
-                answerDiv.textContent = `A: ${answers[questions[currentIndex]] || "No answer provided"}`;
-            } else {
-                questionDiv.textContent = "No questions available";
-                answerDiv.textContent = "";
-            }
-            prevButton.disabled = currentIndex === 0;
-            nextButton.disabled = currentIndex === questions.length - 1;
-        }
-
-        flashcard.addEventListener('click', () => {
-            flashcard.classList.toggle('flipped');
-        });
-
-        prevButton.addEventListener('click', () => {
-            if (currentIndex > 0) {
-                currentIndex--;
-                updateFlashcard();
-            }
-        });
-
-        nextButton.addEventListener('click', () => {
-            if (currentIndex < questions.length - 1) {
-                currentIndex++;
-                updateFlashcard();
-            }
-        });
-
-        updateFlashcard();
-
-        var el = document.querySelector('.button');
-
-    el.addEventListener('click', function () {
-        const lastPdf = localStorage.getItem('lastPdf');
-        const redirectUrl = lastPdf ? `index.html?file=${encodeURIComponent(lastPdf)}` : 'index.html';
-        window.location.href = redirectUrl;
-    });
-    </script>
+    <script src="flashapp.js"></script>
 </body>
 </html>

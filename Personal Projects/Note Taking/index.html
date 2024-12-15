@@ -1,28 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SQ3R Reading Tool</title>
+    <title>Synapse: SQ3R Reading Tool</title>
     <style>
+
+        :root {
+            --timberwolf: #dad7cdff;
+            --sage: #a3b18aff;
+            --fern-green: #588157ff;
+            --hunter-green: #3a5a40ff;
+            --brunswick-green: #344e41ff;
+        }
+		.montserrat-<uniquifier> {
+              font-family: "Montserrat", sans-serif;
+              font-optical-sizing: auto;
+              font-weight: <weight>;
+              font-style: normal;
+        }
         body {
-            font-family: Times New Roman, Times, serif;
+            font-family: "Montserrat", sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
             flex-direction: column;
             height: 100vh;
-        }
-
-        p {
-            margin-left: 40px;
+            background-color: var(--timberwolf);
+            color: var(--hunter-green);
         }
 
         header {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px;
+            background-color: var(--hunter-green);
+            color: var(--timberwolf);
+            width:100%;
+            height:auto;
             text-align: center;
+            font-size: .7em;
+            font-weight: bold;
         }
 
         main {
@@ -32,23 +51,30 @@
 
         .panel {
             flex: 1;
-            padding: 10px;
+            padding: 20px;
             overflow-y: auto;
-            border: 1px solid #ddd;
+            border: 1px solid var(--sage);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .left {
-            background-color: #f9f9f9;
+            background-color: var(--timberwolf);
+            color: var(--brunswick-green);
         }
 
         .right {
-            background-color: #fff;
+            background-color: var(--timberwolf);
+            color: var(--hunter-green);
         }
 
         textarea {
             width: 100%;
             height: 100px;
             margin-top: 10px;
+            border: 1px solid var(--fern-green);
+            border-radius: 4px;
+            padding: 10px;
+            font-family: inherit;
         }
 
         .tools {
@@ -58,65 +84,114 @@
         }
 
         button {
-            padding: 5px 10px;
+            padding: 8px 15px;
             border: none;
-            background-color: #4CAF50;
-            color: white;
+            background-color: var(--fern-green);
+            color: var(--timberwolf);
             cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
         }
 
         button:hover {
-            background-color: #45a049;
+            background-color: var(--hunter-green);
+        }
+        .download-btn {
+            padding: 8px 15px;
+            border: none;
+            background-color: #588157;
+            color: #dad7cd;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            margin-top: 20px;
         }
 
+        .download-btn:hover {
+            background-color: #3a5a40;
+        }
         .flashcards {
             margin-top: 20px;
         }
 
         .flashcard {
-            padding: 10px;
-            border: 1px solid #ddd;
+            padding: 15px;
+            border: 1px solid var(--fern-green);
+            background-color: var(--sage);
             margin-bottom: 10px;
+            border-radius: 4px;
         }
 
         .tab {
             display: flex;
             gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .tab button {
+            flex: 1;
+            background-color: var(--fern-green);
+            color: var(--timberwolf);
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .tab button.active {
+            background-color: var(--hunter-green);
         }
 
         .tabcontent {
             display: none;
+            background-color: var(--timberwolf);
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid var(--sage);
         }
 
         .tabcontent.active {
             display: block;
         }
-         iframe {
+
+        iframe {
             width: 100%;
             height: 500px;
             border: none;
         }
+
         .upload-form {
             display: flex;
             flex-direction: column;
             gap: 10px;
         }
+
+        input[type="file"] {
+            padding: 5px;
+            border: 1px solid var(--sage);
+            border-radius: 4px;
+            background-color: var(--timberwolf);
+        }
+
+        p {
+            margin-left: 40px;
+        }
     </style>
 </head>
-<body onload="document.querySelector('.tablinks').click();">
+    <body onload="document.querySelector('.tablinks').click();">
     <header>
-        <h1>SQ3R Reading Tool</h1>
+        <img src="images/SynapseLogo.png" alt="Synapse Logo" >
     </header>
     <main>
         <div class="panel left">
             <h2>Reading Material</h2>
-            <h3>Upload PDF File</h3>
+
             <iframe id="pdfDisplay" src="" style="display: none;"></iframe>
-        <p id="noPdfMessage">No PDF uploaded yet.</p>
+            <p id="noPdfMessage">No PDF uploaded yet.</p>
             <form class="upload-form" action="upload.php" method="post" enctype="multipart/form-data">
-            <input type="file" name="pdfFile" accept="application/pdf" required>
-            <button type="submit">Upload</button>
-        </form>
+                <input type="file" name="pdfFile" accept="application/pdf" required>
+                <button type="submit">Upload</button>
+            </form>
         </div>
 
         <div class="panel right">
@@ -126,7 +201,6 @@
                 <button class="tablinks" onclick="openTab(event, 'Q&A')">Q&A</button>
                 <button class="tablinks" onclick="openTab(event, 'Notes')">Notes</button>
             </div>
-
             <div id="Checklist" class="tabcontent">
                 <h3><input type="checkbox" id="checkbox1" value="Survey">
                     <label for="checkbox1">Survey</label></h3>
@@ -149,91 +223,28 @@
 
                 <h3><input type="checkbox" id="checkbox5" value="Review">
                     <label for="checkbox5">Review</label></h3>
-                <p>- Review using flashcards <button id="myButton">Generate Flashcards</button></p>
+                <p>- Review using flashcards <br><br> <button id="myButton">Generate Flashcards</button></p>
+                <button class="download-btn" onclick="downloadData()">Download Data</button>
+                <button class="clear-btn" onclick="clearData()">Clear All Data</button>
             </div>
 
             <div id="Q&A" class="tabcontent">
                 <textarea id="questionInput" placeholder="Enter your question"></textarea>
-    <textarea id="answerInput" placeholder="Enter your answer"></textarea>
-    <button onclick="addQuestion()">Save Question</button>
+                <textarea id="answerInput" placeholder="Enter your answer"></textarea>
+                <button onclick="addQuestion()">Save Question</button>
             </div>
 
             <div id="Notes" class="tabcontent">
                 <textarea placeholder="Type your notes here..."></textarea>
             </div>
+
+            
         </div>
     </main>
 
-    <script>
-        document.getElementById("myButton").addEventListener("click", function() {
-            window.location.href = "flashcard.html";
-        });
-
-
-    // Fetch stored questions and answers from localStorage or initialize as empty
-    let questionsArray = JSON.parse(localStorage.getItem('questions')) || [];
-    let answersObject = JSON.parse(localStorage.getItem('answers')) || {};
-
-    function addQuestion() {
-        const questionInput = document.getElementById('questionInput');
-        const answerInput = document.getElementById('answerInput');
-
-        if (questionInput.value.trim() !== '' && answerInput.value.trim() !== '') {
-            // Add the question to the array
-            const question = questionInput.value.trim();
-            questionsArray.push(question);
-
-            // Save the answer for the question in the answers object
-            answersObject[question] = answerInput.value.trim();
-
-            // Save updated questions and answers to localStorage
-            localStorage.setItem('questions', JSON.stringify(questionsArray));
-            localStorage.setItem('answers', JSON.stringify(answersObject));
-
-            // Clear input fields
-            questionInput.value = '';
-            answerInput.value = '';
-
-            alert('Question and answer saved!');
-        } else {
-            alert('Please enter both a question and an answer.');
-        }
-    }
-
-
-        function openTab(evt, tabName) {
-            const tabcontent = document.getElementsByClassName("tabcontent");
-            const tablinks = document.getElementsByClassName("tablinks");
-
-            for (let i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].classList.remove("active");
-            }
-
-            for (let i = 0; i < tablinks.length; i++) {
-                tablinks[i].classList.remove("active");
-            }
-
-            document.getElementById(tabName).classList.add("active");
-            evt.currentTarget.classList.add("active");
-        }
-        const urlParams = new URLSearchParams(window.location.search);
-    const uploadedFile = urlParams.get('file');
-    const pdfDisplay = document.getElementById('pdfDisplay');
-    const noPdfMessage = document.getElementById('noPdfMessage');
-
-    if (uploadedFile) {
-        localStorage.setItem('lastPdf', uploadedFile); // Save the last uploaded file in localStorage
-        pdfDisplay.src = uploadedFile;
-        pdfDisplay.style.display = "block";
-        noPdfMessage.style.display = "none";
-    } else {
-        const lastPdf = localStorage.getItem('lastPdf');
-        if (lastPdf) {
-            pdfDisplay.src = lastPdf;
-            pdfDisplay.style.display = "block";
-            noPdfMessage.style.display = "none";
-        }
-    }
-    </script>
+   
+    <script src="app.js"></script>
+   
 </body>
 </html>
+
