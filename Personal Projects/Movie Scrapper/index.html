@@ -7,6 +7,13 @@
 
     <title>ScreenScraper</title>
     <style>
+        :root {
+        --rich-black: #0d1b2aff;
+        --oxford-blue: #1b263bff;
+        --yinmn-blue: #415a77ff;
+        --silver-lake-blue: #778da9ff;
+        --platinum: #e0e1ddff;
+        }
         .montserrat-<uniquifier> {
           font-family: "Montserrat", sans-serif;
           font-optical-sizing: auto;
@@ -30,12 +37,33 @@
         font-weight: bold;
         padding: 10px;
         }
-        .headings
-        {
-
-        .login{
-        text-align: right;
-
+       .gamebutton {
+           position: fixed;
+            top: 38%;  /* Set a fixed top position */
+            left: 40%; /* Set a fixed left position */
+            width: 100px;
+            height: 40px;
+            transform: translateX(-50%); /* Center horizontally */
+            z-index: 2;
+            background-color: var(--rich-black);
+            color: var(--platinum);
+       }
+        .gamebutton:hover {
+            background-color: var(--oxford-blue);
+        }
+        .resultbutton {
+             position: fixed;
+            top: 38%;  /* Set a fixed top position */
+            left: 60%; /* Set a fixed left position */
+            width: 100px;
+            height: 40px;
+            transform: translateX(-50%); /* Center horizontally */
+            z-index: 2;
+            background-color: var(--rich-black);
+            color: var(--platinum);
+       }
+        .resultbutton:hover {
+            background-color: var(--oxford-blue);
         }
 
 
@@ -49,5 +77,7 @@
         ScreenScraper
 
     </header>
+    <input type="button" class="gamebutton" value="Play Game">
+<input type="button" class="resultbutton" value="View Results">
 </body>
 </html>
