@@ -29,7 +29,7 @@ This repository is structured in the following way:
   - Expandable framework for additional epidemiological models.
 
 #### Division Vapor Register Discrepancies 
-- Description: Collaborated with a small business owner to understand their need to identify discrepancies between register closures and bank account activity. Improved and expanded the project after incorporating user feedback.\
+- Description: Collaborated with a small business owner to understand their need to identify discrepancies between register closures and bank account activity. Improved and expanded the project after incorporating user feedback.
 
 #### Serial Position Effect Lab
 - Description: Developed an interactive website to demonstrate the psychological tendency to recall the first and last items in a list more effectively than those in the middle. Presented users with a line graph of data collected after completing the lab.
