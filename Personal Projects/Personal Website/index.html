@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amelia Bates - Personal Website</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --timberwolf: #dad7cdff;
+            --sage: #a3b18aff;
+            --fern-green: #588157ff;
+            --hunter-green: #3a5a40ff;
+            --brunswick-green: #344e41ff;
+
+        }
+
+        body {
+            font-family: "Montserrat", sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--timberwolf);
+            color: var(--hunter-green);
+            line-height: 1.6;
+        }
+
+        header {
+            background: url('background.jpg') no-repeat center center/cover;
+            height: 70vh; /* Full viewport height */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            padding-top: 20vh;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            font-weight: 600;
+            color: #E2894F;
+            z-index: 2;
+            margin: 5;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: #E2894F;
+            font-weight: 500;
+            margin: 10px 0;
+            z-index: 2;
+        }
+
+        header a {
+            color: #E2894F;
+            font-weight: 600;
+            text-decoration: none;
+            border: 2px solid #BE5103;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        header a:hover {
+            background-color: var(--timberwolf);
+            color: #E2894F;
+        }
+
+        nav {
+            background-color: var(--hunter-green);
+            padding: 10px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: var(--timberwolf);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: var(--fern-green);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+            background-color: var(--timberwolf);
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--hunter-green);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin: 20px 0;
+            color: var(--brunswick-green);
+        }
+
+        section {
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+
+        section:nth-child(even) {
+            background-color: var(--sage);
+        }
+
+        section:nth-child(odd) {
+            background-color: var(--timberwolf);
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .portfolio {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .portfolio-item {
+            background-color: var(--timberwolf);
+            border: 1px solid var(--hunter-green);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .portfolio-item p {
+        text-align: left;
+        }
+
+        .portfolio-item ul {
+        text-align: left;
+        }
+
+        .portfolio-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px var(--fern-green);
+        }
+        .links-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .link-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            color: var(--timberwolf);
+            background: var(--hunter-green);
+            border: 2px solid transparent;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .link-button:hover {
+            background: var(--fern-green);
+            color: var(--timberwolf);
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .link-button span {
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .link-button:hover span {
+            transform: rotate(360deg);
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: var(--sage);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-form label {
+            font-weight: 600;
+            margin-top: 10px;
+            display: block;
+            text-align: left;
+        }
+
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0 20px;
+            border: 1px solid var(--hunter-green);
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .contact-form input[type="submit"] {
+            background-color: var(--hunter-green);
+            color: var(--timberwolf);
+            font-weight: 600;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .contact-form input[type="submit"]:hover {
+            background-color: var(--fern-green);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--hunter-green);
+            color: var(--timberwolf);
+        }
+
+        footer a {
+            color: var(--fern-green);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Amelia Bates</h1>
+        <p>Software Developer | Problem Solver | Creative Thinker</p>
+        <p>
+            <a href="mailto:amelia.josephine.bates@gmail.com">Contact Me</a>
+        </p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#portfolio">Portfolio</a></li>
+            <li><a href="#links">Links</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="hero">
+        <h2>Welcome to My Personal Website</h2>
+        <p>Explore my skills, projects, and passion for creating meaningful software solutions.</p>
+    </div>
+
+    <section id="about">
+        <h2>About Me</h2>
+        <p>I am an IT professional and programmer based in Eugene, OR, passionate about combining technology and human-centric design to create innovative solutions. With a major in Computer Science and a minor in Psychology at the University of Oregon, I bring a multidisciplinary approach to solving problems and developing projects. </p>
+
+        <p>Currently, I serve as an Information Support Technician III at the University of Oregon, where I specialize in troubleshooting, hardware setup, software configuration, and enterprise device management. My experience spans a variety of technologies, including Windows, MacOS, Active Directory, SCCM, JAMF, and PowerShell scripting. Additionally, I excel in customer service, technical documentation, and team leadership, managing complex tasks and fostering effective communication across diverse teams. </p>
+        <p> I am currently looking for employment opportunities after my graduation date of June 2025. With a foundation in technical expertise and a deep interest in human behavior, I aim to innovate solutions that bridge the gap between technology and the human experience.</p>
+
+<p>Explore my portfolio to learn more about my work, skills, and aspirations. Let's connect!</p><br>
+        <h3>My Favorite Playlist</h3>
+        <p>Enjoy some tunes that inspire me while I work and create!</p>
+        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/10b9yUmCjXIKcDtFolikwb?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </section>
+
+        <section id="portfolio">
+    <h2>Portfolio</h2>
+    <div class="portfolio">
+        <div class="portfolio-item">
+            <h2>Synapse: SQ3R Reading Tool</h2>
+            <p><strong>Description:</strong></p>
+            <p>Developed an interactive web-based application to enhance active reading and comprehension through the SQ3R methodology (Survey, Question, Read, Reflect, Review). The tool allows users to upload and view PDFs, manage study tasks, create notes, generate flashcards, and download session data for effective learning management.</p>
+
+            <p><strong>Key Features:</strong></p>
+            <ul>
+                <li><strong>Interactive Interface:</strong> Seamlessly integrates a checklist, Q&A section, and note-taking features.</li>
+                <li><strong>Flashcard Generator:</strong> Converts study notes into flashcards for efficient review.</li>
+                <li><strong>Local Storage Integration:</strong> Preserves user data across sessions without requiring a backend.</li>
+                <li><strong>PDF Interaction:</strong> Provides an intuitive way to upload, display, and interact with PDF files.</li>
+                <li><strong>Customizable Flashcards:</strong> Enables users to review questions and answers with an easy-to-navigate interface.</li>
+            </ul>
+
+            <p><strong>Technologies Used:</strong></p>
+            <ul>
+                <li><strong>Frontend:</strong> HTML, CSS, JavaScript</li>
+                <li><strong>Backend:</strong> PHP for file uploads</li>
+                <li><strong>Additional Tools:</strong> PDF.js for rendering PDFs</li>
+            </ul>
+
+            <p><strong>Impact:</strong></p>
+            <ul>
+                <li>Enhanced user engagement with structured learning strategies.</li>
+                <li>Encouraged active comprehension through the SQ3R method, proven to improve retention and study efficiency.</li>
+            </ul>
+
+            <p><strong>Future Development Goals:</strong></p>
+            <ul>
+                <li>Introduce multi-user capabilities with user authentication.</li>
+                <li>Expand support for additional file formats.</li>
+                <li>Implement server-side storage for long-term data management.</li>
+            </ul>
+        </div>
+
+        <div class="portfolio-item">
+            <h2>Serial Position Effect Experiment</h2>
+            <p><strong>Description:</strong></p>
+            <p>Developed an interactive web application to study the serial position effect—a cognitive phenomenon where individuals recall the first and last items in a sequence more effectively than those in the middle. The tool presents users with randomized word lists and records their recall accuracy, providing insights into memory and learning patterns.</p>
+
+            <p><strong>Key Features:</strong></p>
+            <ul>
+                <li><strong>Randomized Word Lists:</strong> Generates unique sequences for each session to ensure unbiased results.</li>
+                <li><strong>Timed Recall Tasks:</strong> Implements countdown timers to simulate real-world memory challenges.</li>
+                <li><strong>Data Visualization:</strong> Displays user performance metrics, highlighting primacy and recency effects.</li>
+                <li><strong>User-Friendly Interface:</strong> Designed with intuitive navigation to facilitate seamless user experience.</li>
+            </ul>
+
+            <p><strong>Technologies Used:</strong></p>
+            <ul>
+                <li><strong>Frontend:</strong> HTML, CSS, JavaScript</li>
+                <li><strong>Backend:</strong> Python with Flask framework</li>
+                <li><strong>Data Visualization:</strong> Chart.js library</li>
+            </ul>
+
+            <p><strong>Impact:</strong></p>
+            <ul>
+                <li>Enhanced understanding of cognitive biases related to memory recall.</li>
+                <li>Provided a practical tool for psychology students and educators to explore the serial position effect.</li>
+            </ul>
+
+            <p><strong>Future Development Goals:</strong></p>
+            <ul>
+                <li>Incorporate additional cognitive tests to broaden the scope of the application.</li>
+                <li>Enable user authentication for personalized tracking of performance over time.</li>
+                <li>Implement advanced statistical analysis features to offer deeper insights into user data.</li>
+            </ul>
+        </div>
+
+        <div class="portfolio-item">
+            <h2>DVapor: Register Discrepancy Checker</h2>
+            <p><strong>Description:</strong></p>
+            <p>Designed and developed a web application for a small business to identify and resolve discrepancies between financial register files and Chase bank records. This project utilized the Software Development Life Cycle (SDLC) methodology, incorporating client feedback to deliver a practical solution for reconciling transaction data efficiently.</p>
+
+            <p><strong>Key Features:</strong></p>
+            <ul>
+                <li><strong>File Upload System:</strong> Enabled secure and user-friendly upload of register and bank files for analysis.</li>
+                <li><strong>Automated Data Cleaning:</strong> Processed and cleaned data files, handling non-date entries and formatting issues.</li>
+                <li><strong>Discrepancy Detection:</strong> Identified unmatched transactions and generated detailed reports for review.</li>
+                <li><strong>Match Finder:</strong> Mapped transactions from both files to find matches based on dates and amounts.</li>
+                <li><strong>Downloadable Reports:</strong> Provided users with ready-to-download CSV files for matched transactions, discrepancies, and processed data.</li>
+            </ul>
+
+            <p><strong>Technologies Used:</strong></p>
+            <ul>
+                <li><strong>Backend:</strong> Python with Flask framework</li>
+                <li><strong>Data Processing:</strong> Pandas for data cleaning and analysis</li>
+                <li><strong>Frontend:</strong> HTML, CSS, JavaScript</li>
+                <li><strong>File Handling:</strong> Local storage with CSV processing</li>
+            </ul>
+
+            <p><strong>Impact:</strong></p>
+            <ul>
+                <li>Reduced time spent on manual data reconciliation by automating key processes.</li>
+                <li>Improved financial accuracy and accountability for the business.</li>
+                <li>Provided a scalable and reusable tool for ongoing transaction analysis.</li>
+            </ul>
+
+            <p><strong>Features and Skills Showcased:</strong></p>
+            <ul>
+                <li><strong>Client Collaboration:</strong> Worked closely with the client to identify pain points and tailor the solution to meet specific business needs.</li>
+                <li><strong>Data Processing Expertise:</strong> Utilized Python's Pandas library for advanced data cleaning, formatting, and analysis.</li>
+                <li><strong>Full-Stack Development:</strong> Integrated backend data processing with a user-friendly frontend interface.</li>
+                <li><strong>SDLC Methodology:</strong> Applied structured development practices to ensure a robust and maintainable solution.</li>
+                <li><strong>Problem-Solving:</strong> Addressed challenges such as handling incomplete data and ensuring compatibility with different file formats.</li>
+            </ul>
+
+            <p><strong>Future Development Goals:</strong></p>
+            <ul>
+                <li>Incorporate cloud storage for secure file handling and remote access.</li>
+                <li>Enable multi-user support with role-based access control.</li>
+                <li>Add real-time reconciliation features for enhanced efficiency.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+    <section id="links">
+            <h2>Downloads and Links</h2>
+            <p>Access my resume and professional profiles below:</p>
+            <div class="links-container">
+                <a href="bates.amelia.resume.pdf" download class="link-button"><span>📄</span> Download Resume</a>
+                <a href="https://github.com/ameliabates" target="_blank" class="link-button"><span>🐙</span> Visit My GitHub</a>
+                <a href="https://www.linkedin.com/in/amelia-bates-0a9740174/" target="_blank" class="link-button"><span>🔗</span> Connect on LinkedIn</a>
+            </div>
+        </section>
+    <section id="contact">
+        <h2>Contact Me</h2>
+        <div class="contact-form">
+            <form action="https://formspree.io/f/mbjnyznp" method="post">
+                <label for="fname">First Name</label>
+                <input type="text" id="fname" name="firstname" placeholder="Your name..." required>
+
+                <label for="lname">Last Name</label>
+                <input type="text" id="lname" name="lastname" placeholder="Your last name..." required>
+
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="_replyto" placeholder="Your email..." required>
+
+                <label for="message">Message</label>
+                <textarea id="message" name="message" placeholder="Your message..." required></textarea>
+
+                <input type="submit" value="Send Message">
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Amelia Bates | <a href="mailto:amelia.josephine.bates@gmail.com">amelia.josephine.bates@gmail.com</a></p>
+    </footer>
+</body>
+</html>
