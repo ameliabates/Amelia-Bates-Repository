@@ -1,22 +1,29 @@
 const express = require('express');
 const fs = require('fs');
-const path = require('path');
-const XLSX = require('xlsx');
+const csv = require('csv-parser');
 
 const app = express();
-const port = 3000;
+const PORT = 3000;
 
-app.use(express.static('public'));
+app.use(express.json());
 
+// Endpoint to fetch cat data
 app.get('/cats', (req, res) => {
-  const filePath = path.join(__dirname, 'cats.xlsx');
-  const workbook = XLSX.readFile(filePath);
-  const sheetName = workbook.SheetNames[0];
-  const worksheet = workbook.Sheets[sheetName];
-  const json = XLSX.utils.sheet_to_json(worksheet);
-  res.json(json);
+    const results = [];
+    fs.createReadStream('cats.csv')
+        .pipe(csv())
+        .on('data', (data) => results.push(data))
+        .on('end', () => {
+            res.json(results);
+        })
+        .on('error', (error) => {
+            res.status(500).json({ error: 'Failed to read CSV file' });
+        });
 });
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+// Serve frontend files
+app.use(express.static('public'));
+
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
 });
