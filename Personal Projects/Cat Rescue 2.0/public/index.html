@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bates Cat Rescue</title>
+    <style>
+        body {
+            font-family: Georgia, serif;
+            margin: 0;
+            padding: 0;
+            background-color: #DCC7AA;
+            color: #6B7A8F;
+        }
+        h2 {
+            color: #6B7A8F;
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        header {
+            background-color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        nav {
+        background-color: #F7882F;
+        padding: 10px 0;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            position: relative;
+        }
+
+        nav ul li a {
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+            padding: 12px 18px;
+            transition: color 0.3s ease-in-out;
+            display: inline-block;
+        }
+
+        nav ul li a::after {
+            content: "";
+            display: block;
+            height: 3px;
+            width: 0;
+            background: #F7C331;
+            transition: width 0.3s ease-in-out;
+            margin-top: 4px;
+            border-radius: 2px;
+        }
+
+        nav ul li a:hover {
+            color: #FFF5E1;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+        }
+        section {
+            padding: 20px;
+        }
+        h3{
+            color: #6B7A8F;
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        footer {
+            text-align: center;
+            padding: 15px;
+            background-color: white;
+            color: #F7882F;
+            margin-top: 20px;
+        }
+        .slideshow-container {
+            max-width: 1000px;
+            position: relative;
+            margin: auto;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .mySlides {
+            display: none;
+            animation: fade 1.5s ease-in-out;
+        }
+
+        @keyframes fade {
+            from {opacity: 0.5;}
+            to {opacity: 1;}
+        }
+
+        .mySlides img {
+            width: 100%;
+            border-radius: 12px;
+        }
+
+        /* Caption Styling */
+        .text {
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            text-align: center;
+            border-radius: 8px;
+        }
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 12px;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            background-color: rgba(0, 0, 0, 0.4);
+            border-radius: 50%;
+            transition: 0.3s ease;
+            user-select: none;
+        }
+
+        .prev {
+            left: 15px;
+        }
+
+        .next {
+            right: 15px;
+        }
+
+        .prev:hover, .next:hover {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="logo.png" width="200" height="200" alt="Bates Cat Rescue Logo">
+    </header>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="available_cats.html">Available Cats</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="resources.html">Cat Adoption Form</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <section>
+            <h2>About Us</h2>
+            <p>Welcome to Bates Cat Rescue, a sanctuary for our feline friends in need. Founded in 2024, we provide a safe and loving environment for cats who have been abandoned, abused, or neglected.</p>
+        </section>
+        <section>
+            <h3>Recent Adoptions</h3>
+            <div class="slideshow-container">
+                <div class="mySlides fade">
+                    <img src="slidephoto1.jpg" style="width:100%">
+                    <div class="text">Marmalade and Butterscotch in their forever home</div>
+                </div>
+                <div class="mySlides fade">
+                    <img src="slidephoto2.jpg" style="width:100%">
+                    <div class="text">Casper just went home!</div>
+                </div>
+                <div class="mySlides fade">
+                    <img src="slidephoto3.jpg" style="width:100%">
+                    <div class="text">Patch has been adopted</div>
+                </div>
+                <a class="prev" onclick="plusSlides(-1)">❮</a>
+                <a class="next" onclick="plusSlides(1)">❯</a>
+            </div>
+        </section>
+    </div>
+    <footer>
+        <p>Bates Cat Rescue - Eugene, OR</p>
+    </footer>
+    <script>
+        let slideIndex = 1;
+        showSlides(slideIndex);
+
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+
+        function showSlides(n) {
+            let i;
+            let slides = document.getElementsByClassName("mySlides");
+            if (n > slides.length) {slideIndex = 1}
+            if (n < 1) {slideIndex = slides.length}
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slides[slideIndex-1].style.display = "block";
+        }
+
+        setInterval(() => plusSlides(1), 9000);
+    </script>
+</body>
+</html>
+

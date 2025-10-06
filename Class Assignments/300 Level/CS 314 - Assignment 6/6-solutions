@@ -1,0 +1,27 @@
+a) 
+        /* 
+         mulss %xmm2, %xmm0
+         adds %xmm0, %xmm1
+        */
+        - The mulss instruction can not be parallelized across the iterations of the loop because it is dependent on the values of u[i]/%xmm0 and v[i]/%xmm2. 
+        
+        - The adds instruction can not be parallelized across the iterations of the loop because it is dependent on the mulss instruction for %xmm0. On each iteration, the old value of add is stored in %xmm0 to compute the new value, and is thus cannot be parallelized.
+        
+b)      The lowest possible Cycles Per Element is 3 because add is the critical path.
+
+
+c)      In 6-2c.c
+
+d)
+
+        When the array has a length of 10,000
+            -Time for inner1 = 1.531463
+            -Time for inner2 = 0.533821
+        When the array has a length of 1,000
+            -Time for inner1 = 0.144314
+            -Time for inner2 = 0.053164
+        When the array has a length of 100
+            -Time for inner1 = 0.012174
+            -Time for inner2 = 0.004211
+            
+        The function inner2 is much more efficient than inner, as it impliments because it reduces the amount of iterations needed. I was suprised by just how efficient the inner2 is compared to inner. 

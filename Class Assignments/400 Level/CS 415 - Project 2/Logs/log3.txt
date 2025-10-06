@@ -1,0 +1,113 @@
+==2190== Memcheck, a memory error detector
+==2190== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==2190== Using Valgrind-3.19.0 and LibVEX; rerun with -h for copyright info
+==2190== Command: ./part3 input.txt
+==2190== 
+total 200
+ 8 part4.c
+20 part4
+ 4 part3.c
+20 part3
+ 4 part2test.txt
+ 4 part2.c
+20 part2
+ 4 part1.txt
+12 .part1.c.swp
+ 4 part1.c
+20 part1
+ 4 Makefile
+ 4 log3.txt
+ 4 log2.txt
+ 4 log1.txt
+ 4 iobound.c
+20 iobound
+ 4 input.txt
+ 4 cpubound.c
+16 cpubound
+ 4 commands.txt
+ 4 arch64_example_executables
+ 4 ..
+ 4 .
+error: No such file or directory
+==2193== 
+==2193== HEAP SUMMARY:
+==2193==     in use at exit: 472 bytes in 1 blocks
+==2193==   total heap usage: 2 allocs, 1 frees, 4,568 bytes allocated
+==2193== 
+==2193== LEAK SUMMARY:
+==2193==    definitely lost: 0 bytes in 0 blocks
+==2193==    indirectly lost: 0 bytes in 0 blocks
+==2193==      possibly lost: 0 bytes in 0 blocks
+==2193==    still reachable: 472 bytes in 1 blocks
+==2193==         suppressed: 0 bytes in 0 blocks
+==2193== Reachable blocks (those to which a pointer was found) are not shown.
+==2193== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==2193== 
+==2193== For lists of detected and suppressed errors, rerun with: -s
+==2193== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+Process: 2195 - Begining calculation.
+Process: 2195 - Finished.
+Process: 2194 - Begining to write to file.
+Process: 2194 - Finished.
+Alarm halthing 2191
+Starting process 2193
+Alarm halthing 2193
+Starting process 2195
+Alarm halthing 2195
+Starting process 2192
+Alarm halthing 2192
+Starting process 2194
+Alarm halthing 2194
+Starting process 2195
+Alarm halthing 2195
+Starting process 2192
+Alarm halthing 2192
+Starting process 2195
+Alarm halthing 2195
+Starting process 2194
+Alarm halthing 2194
+Starting process 2195
+Alarm halthing 2195
+Starting process 2194
+Alarm halthing 2194
+Starting process 2195
+Alarm halthing 2195
+Starting process 2194
+Alarm halthing 2194
+Starting process 2195
+Alarm halthing 2195
+Starting process 2194
+Alarm halthing 2194
+Starting process 2195
+Alarm halthing 2195
+Starting process 2194
+Alarm halthing 2194
+Starting process 2195
+Alarm halthing 2195
+Starting process 2194
+Alarm halthing 2194
+Starting process 2195
+Alarm halthing 2195
+Starting process 2194
+Alarm halthing 2194
+Starting process 2195
+Alarm halthing 2195
+Starting process 2194
+Alarm halthing 2194
+Starting process 2195
+Alarm halthing 2195
+Starting process 2194
+Alarm halthing 2194
+Starting process 2194
+Alarm halthing 2194
+Starting process 2194
+Alarm halthing 2194
+==2190== 
+==2190== HEAP SUMMARY:
+==2190==     in use at exit: 0 bytes in 0 blocks
+==2190==   total heap usage: 3 allocs, 3 frees, 8,664 bytes allocated
+==2190== 
+==2190== All heap blocks were freed -- no leaks are possible
+==2190== 
+==2190== For lists of detected and suppressed errors, rerun with: -s
+==2190== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

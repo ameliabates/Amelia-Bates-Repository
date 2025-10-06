@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <title>ScreenScraper</title>
+    <style>
+        :root {
+        --rich-black: #0d1b2aff;
+        --oxford-blue: #1b263bff;
+        --yinmn-blue: #415a77ff;
+        --silver-lake-blue: #778da9ff;
+        --platinum: #e0e1ddff;
+        }
+        .montserrat-<uniquifier> {
+          font-family: "Montserrat", sans-serif;
+          font-optical-sizing: auto;
+          font-weight: <weight>;
+          font-style: normal;
+        }
+        body {
+            font-family: "Montserrat", sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: url('images/backgroundScreenScraper.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        header {
+        font-family: "Montserrat", sans-serif;
+        width:10%;
+        height:auto;
+        text-align: left;
+        font-size: .7em;
+        font-weight: bold;
+        padding: 10px;
+        }
+       .gamebutton {
+           position: fixed;
+            top: 38%;  /* Set a fixed top position */
+            left: 40%; /* Set a fixed left position */
+            width: 100px;
+            height: 40px;
+            transform: translateX(-50%); /* Center horizontally */
+            z-index: 2;
+            background-color: var(--rich-black);
+            color: var(--platinum);
+       }
+        .gamebutton:hover {
+            background-color: var(--oxford-blue);
+        }
+        .resultbutton {
+             position: fixed;
+            top: 38%;  /* Set a fixed top position */
+            left: 60%; /* Set a fixed left position */
+            width: 100px;
+            height: 40px;
+            transform: translateX(-50%); /* Center horizontally */
+            z-index: 2;
+            background-color: var(--rich-black);
+            color: var(--platinum);
+       }
+        .resultbutton:hover {
+            background-color: var(--oxford-blue);
+        }
+
+
+
+    </style>
+</head>
+<body>
+    <header>
+        <br>
+        <img src = 'images/logoScreenScraper.png' alt = "ScreenScraper logo" width = 30, height = 30>
+        ScreenScraper
+
+    </header>
+    <input type="button" class="gamebutton" value="Play Game">
+<input type="button" class="resultbutton" value="View Results">
+</body>
+</html>

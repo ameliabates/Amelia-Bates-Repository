@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synapse: SQ3R Reading Tool</title>
+    <style>
+
+        :root {
+            --timberwolf: #dad7cdff;
+            --sage: #a3b18aff;
+            --fern-green: #588157ff;
+            --hunter-green: #3a5a40ff;
+            --brunswick-green: #344e41ff;
+        }
+		.montserrat-<uniquifier> {
+              font-family: "Montserrat", sans-serif;
+              font-optical-sizing: auto;
+              font-weight: <weight>;
+              font-style: normal;
+        }
+        body {
+            font-family: "Montserrat", sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: var(--timberwolf);
+            color: var(--hunter-green);
+        }
+
+        header {
+            background-color: var(--hunter-green);
+            color: var(--timberwolf);
+            width:100%;
+            height:auto;
+            text-align: center;
+            font-size: .7em;
+            font-weight: bold;
+        }
+
+        main {
+            display: flex;
+            flex: 1;
+        }
+
+        .panel {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            border: 1px solid var(--sage);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .left {
+            background-color: var(--timberwolf);
+            color: var(--brunswick-green);
+        }
+
+        .right {
+            background-color: var(--timberwolf);
+            color: var(--hunter-green);
+        }
+
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin-top: 10px;
+            border: 1px solid var(--fern-green);
+            border-radius: 4px;
+            padding: 10px;
+            font-family: inherit;
+        }
+
+        .tools {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        button {
+            padding: 8px 15px;
+            border: none;
+            background-color: var(--fern-green);
+            color: var(--timberwolf);
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: var(--hunter-green);
+        }
+        .download-btn {
+            padding: 8px 15px;
+            border: none;
+            background-color: #588157;
+            color: #dad7cd;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+
+        .download-btn:hover {
+            background-color: #3a5a40;
+        }
+        .flashcards {
+            margin-top: 20px;
+        }
+
+        .flashcard {
+            padding: 15px;
+            border: 1px solid var(--fern-green);
+            background-color: var(--sage);
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .tab {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .tab button {
+            flex: 1;
+            background-color: var(--fern-green);
+            color: var(--timberwolf);
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .tab button.active {
+            background-color: var(--hunter-green);
+        }
+
+        .tabcontent {
+            display: none;
+            background-color: var(--timberwolf);
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid var(--sage);
+        }
+
+        .tabcontent.active {
+            display: block;
+        }
+
+        iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+        }
+
+        .upload-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        input[type="file"] {
+            padding: 5px;
+            border: 1px solid var(--sage);
+            border-radius: 4px;
+            background-color: var(--timberwolf);
+        }
+
+        p {
+            margin-left: 40px;
+        }
+    </style>
+</head>
+    <body onload="document.querySelector('.tablinks').click();">
+    <header>
+        <img src="images/SynapseLogo.png" alt="Synapse Logo" >
+    </header>
+    <main>
+        <div class="panel left">
+            <h2>Reading Material</h2>
+
+            <iframe id="pdfDisplay" src="" style="display: none;"></iframe>
+            <p id="noPdfMessage">No PDF uploaded yet.</p>
+            <form class="upload-form" action="upload.php" method="post" enctype="multipart/form-data">
+                <input type="file" name="pdfFile" accept="application/pdf" required>
+                <button type="submit">Upload</button>
+            </form>
+        </div>
+
+        <div class="panel right">
+            <h2>SQ3R Tasks</h2>
+            <div class="tab">
+                <button class="tablinks" onclick="openTab(event, 'Checklist')">Checklist</button>
+                <button class="tablinks" onclick="openTab(event, 'Q&A')">Q&A</button>
+                <button class="tablinks" onclick="openTab(event, 'Notes')">Notes</button>
+            </div>
+            <div id="Checklist" class="tabcontent">
+                <h3><input type="checkbox" id="checkbox1" value="Survey">
+                    <label for="checkbox1">Survey</label></h3>
+                <p>- Highlight headings, subheadings, and bold/italicized print</p>
+                <p>- Read the final summary paragraph</p>
+
+                <h3><input type="checkbox" id="checkbox2" value="Question">
+                    <label for="checkbox2">Questions</label></h3>
+                <p>- Use the Q&A tab to create your own questions</p>
+
+                <h3><input type="checkbox" id="checkbox3" value="Read">
+                    <label for="checkbox3">Read</label></h3>
+                <p>- Underline main ideas</p>
+                <p>- Write your notes and summarize what you have read</p>
+                <p>- Answer the questions you have created</p>
+
+                <h3><input type="checkbox" id="checkbox4" value="Reflect">
+                    <label for="checkbox4">Reflect</label></h3>
+                <p>- Answer your questions aloud in your own words</p>
+
+                <h3><input type="checkbox" id="checkbox5" value="Review">
+                    <label for="checkbox5">Review</label></h3>
+                <p>- Review using flashcards <br><br> <button id="myButton">Generate Flashcards</button></p>
+                <button class="download-btn" onclick="downloadData()">Download Data</button>
+                <button class="clear-btn" onclick="clearData()">Clear All Data</button>
+            </div>
+
+            <div id="Q&A" class="tabcontent">
+                <textarea id="questionInput" placeholder="Enter your question"></textarea>
+                <textarea id="answerInput" placeholder="Enter your answer"></textarea>
+                <button onclick="addQuestion()">Save Question</button>
+            </div>
+
+            <div id="Notes" class="tabcontent">
+                <textarea placeholder="Type your notes here..."></textarea>
+            </div>
+
+            
+        </div>
+    </main>
+
+   
+    <script src="app.js"></script>
+   
+</body>
+</html>
+
